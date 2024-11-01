@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { FaRegComment, FaUser } from 'react-icons/fa'
+import { FaRegComment } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { imageUrl, WarningIcon, } from '../../icons/icons'
 import axios from '../../utils/axios'

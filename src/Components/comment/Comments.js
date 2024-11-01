@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { FaUser } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { imageUrl, SubmitIcon } from '../../icons/icons'
 import { setPost } from '../../state/userReducer'

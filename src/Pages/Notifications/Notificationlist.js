@@ -1,8 +1,8 @@
 import React from 'react'
-import { FaUser } from 'react-icons/fa'
-
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
+import { imageUrl } from '../../icons/icons'
+
 TimeAgo.addDefaultLocale(en)
 
 const Notificationlist = ({ type, user, friend, content, post, createdAt }) => {
@@ -12,9 +12,9 @@ const Notificationlist = ({ type, user, friend, content, post, createdAt }) => {
             <div className='flex p-2 bg-gray-100 border m-1 rounded-lg'>
                 {friend?.profilePic ?
                     <img className='rounded-full mx-2 w-10 h-10' src={friend?.profilePic} alt='profile-pic' /> :
-                    <div className='border mx-2 border-[#3d3f50] w-10 h-10 rounded-full'>
-                        <FaUser className='w-full h-full rounded-full' />
-                    </div>
+                    <div className=' w-10 h-10 '>
+                    <img src={imageUrl} className='rounded-full h-full w-full' />
+                </div>
                 }
                 <div>
                 <p>{`${friend?.userName} ${content}`}</p>

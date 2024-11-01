@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import axios from "../../utils/axios"
 import { addFollow, unfollow } from "../../utils/constants"
 import { useDispatch, useSelector } from 'react-redux'
-import { FaUser } from 'react-icons/fa'
 import { setUserData } from '../../state/userReducer'
+import { imageUrl } from '../../icons/icons'
 
 const FriendInfo = ({ id, userName, profilePic, name }) => {
   const token = useSelector((state) => state.token)
@@ -50,9 +50,10 @@ const FriendInfo = ({ id, userName, profilePic, name }) => {
       <div className='flex'>
         {profilePic ? <div className='rounded-full overflow-hidden '>
           <img className='w-12 h-12' src={profilePic} alt="" /></div> :
-          <div className='border border-[#3d3f50] w-12 h-12 rounded-full'>
-            <FaUser className='w-full h-full rounded-full' />
+          <div className=' w-10 h-10 '>
+            <img src={imageUrl} className='rounded-full h-full w-full' />
           </div>
+
         }
         <div className=' pl-2'>
           <h3 className='font-semibold'>{name}</h3>
@@ -62,11 +63,11 @@ const FriendInfo = ({ id, userName, profilePic, name }) => {
 
       <div className='pr-3 py-auto '>
         {!Following && user.followers.includes(id) &&
-          (<button className= 'rounded-md bg-slate-300 my-2 px-3 py-1' onClick={() => handleFollow(id)}>Follow back</button>)}
+          (<button className='rounded-md bg-slate-300 my-2 px-3 py-1' onClick={() => handleFollow(id)}>Follow back</button>)}
         {!Following && !user.followers.includes(id) &&
           (<button className='rounded-md bg-slate-300 my-2 px-3 py-1 ' onClick={() => handleFollow(id)}>Follow</button>)}
         {Following && (<button className='rounded-md bg-slate-300 my-2 px-3 py-1 ' onClick={() => handleUnFollow(id)}>Following</button>)}
-      
+
       </div>
     </div>
   )

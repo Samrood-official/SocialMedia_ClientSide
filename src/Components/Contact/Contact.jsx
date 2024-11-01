@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContactList from '../ContactList/ContactList';
 import { addChat, getAllusers } from '../../state/apiCalls';
-import { FaUser } from 'react-icons/fa';
 import { setChat, setConversation, setCurrentChat } from '../../state/userReducer';
+import { imageUrl } from '../../icons/icons';
 const Contact = ({ currentUser }) => {
   const conversation = useSelector((state) => state.conversation)
   const userData = useSelector((state) => state.user)
@@ -55,9 +55,9 @@ const Contact = ({ currentUser }) => {
               <div className='border p-1 flex w-full hover:bg-gray-100'>
                 {user.profilePic ?
                   <img className=' w-10 h-10 rounded-full' src={user.profilePic} alt='profilepic' /> :
-                  <div className='block border-zinc-400 border w-10 h-10 rounded-full'>
-                    <FaUser className='w-full h-full rounded-full' />
-                  </div>
+                   <div className='block w-10 h-10 '>
+                   <img src={imageUrl} className='rounded-full h-full w-full' />
+                 </div>
                 }
                 <div onClick={() => handleChat(user._id)} className='px-2'>
                   <p>{user.userName}</p>

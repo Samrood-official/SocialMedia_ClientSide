@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { FaUser } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { BellIcon, ChatIcon, SearchIcon } from '../../icons/icons'
+import { BellIcon, ChatIcon, imageUrl, SearchIcon } from '../../icons/icons'
 import { getAllusers } from '../../state/apiCalls'
 import { setLogout } from '../../state/userReducer'
 const Navbar = () => {
@@ -56,12 +55,12 @@ const Navbar = () => {
                 <div className='border p-1 flex w-full hover:bg-gray-100'>
                   {user.profilePic ?
                     <img className=' w-10 h-10 rounded-full' src={user.profilePic} /> :
-                    <div className='block border-zinc-400 border w-10 h-10 rounded-full'> 
-                      <FaUser className='w-full h-full rounded-full' />
+                    <div className='block w-10 h-10 '>
+                      <img src={imageUrl} className='rounded-full h-full w-full' />
                     </div>
                   }
                   <Link to={`/othersprofile/${user._id}`}
-                  onClick={()=> setSearchItem("")}
+                    onClick={() => setSearchItem("")}
                   >
                     <div className='px-2'>
                       <p>{user.userName}</p>
@@ -96,13 +95,20 @@ const Navbar = () => {
             {userData?.profilePic ?
               <button className='block w-12 h-12 md:hidden' onClick={toggleMenu}>
                 <img className='rounded-full h-full w-full' src={userData?.profilePic ? userData?.profilePic : ""} alt=''></img>
-              </button> : <div onClick={toggleMenu} className='block md:hidden border bg-white w-10 h-10 rounded-full'>
-                <FaUser className='w-full h-full rounded-full' /> </div>}
+              </button> : 
+                 <div onClick={toggleMenu} className='block md:hidden w-10 h-10 '>
+                 <img src={imageUrl} className='rounded-full h-full w-full' />
+               </div>
+                }
             {userData?.profilePic ?
               <button onClick={() => navigate(`/profile/${userData._id}`)} className='hidden md:block w-12 h-12'>
                 <img className='rounded-full h-full w-full' src={userData?.profilePic ? userData?.profilePic : ""} alt=''></img>
-              </button> : <div className='hidden md:block  border bg-white border-[#fffff] w-10 h-10 rounded-full'>
-                <FaUser className='w-full h-full rounded-full' /> </div>}
+              </button> :
+
+              <div className='hidden md:block w-10 h-10 '>
+                <img src={imageUrl} className='rounded-full h-full w-full' />
+              </div>
+            }
             <div className={`absolute top-12 right-0 w-52 justify-start bg-white text-center border border-zinc-400 rounded-lg py-2 ${isOpen ? '' : 'hidden'}`}>
               <p onClick={() => navigate(`/`)} className='m-2 hover:text-white hover:bg-[#02abc5] py-2 rounded transition duration-200'>Home</p>
               <p onClick={() => navigate(`/profile/${userData._id}`)} className='py-2 rounded m-2 hover:text-white hover:bg-[#02abc5] transition duration-200'>Profile</p>
@@ -129,8 +135,8 @@ const Navbar = () => {
                   <div className='border p-1 flex w-full hover:bg-gray-100'>
                     {user.profilePic ?
                       <img className=' w-10 h-10 rounded-full' src={user.profilePic} /> :
-                      <div className='block border-zinc-400 border w-10 h-10 rounded-full'>
-                        <FaUser className='w-full h-full rounded-full' />
+                      <div className='block w-10 h-10 '>
+                        <img src={imageUrl} className='rounded-full h-full w-full' />
                       </div>
                     }
                     <Link to={`/othersprofile/${user._id}`}>

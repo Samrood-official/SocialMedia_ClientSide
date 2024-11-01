@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FaUser } from 'react-icons/fa';
 import ChatBox from '../ChatBox/ChatBox';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from '../../utils/axios';
 import io from 'socket.io-client';
 import { getUser } from '../../state/apiCalls';
-import { SubmitIcon } from '../../icons/icons';
+import { imageUrl, SubmitIcon } from '../../icons/icons';
 import { BiArrowBack } from 'react-icons/bi';
 import { setChat } from '../../state/userReducer';
 import { getBaseUrl } from '../../utils/constants';
@@ -80,9 +79,9 @@ const ChatContainer = ({ messages, currentChat, setMessages }) => {
         <button className='md:hidden mr-1 text-white  text-2xl' onClick={()=>{dispatch(setChat({showMessage:"hidden", showContact:"block"}))}} ><BiArrowBack/></button>
           {friend?.profilePic ?
             <img className='md:mx-1 w-10 h-10 rounded-full' src={friend?.profilePic} alt='profilepic' /> :
-            <div className='border md:mx-2  border-[#3d3f50] w-10 h-10 rounded-full'>
-              <FaUser className='w-full h-full rounded-full' />
-            </div>
+             <div className='block w-10 h-10 '>
+             <img src={imageUrl} className='rounded-full h-full w-full' />
+           </div>
           }
           <div className='pl-2'>
             <h3 className='text-white font-medium'>{friend?.name}</h3>

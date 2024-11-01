@@ -2,13 +2,11 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { setLogout } from '../../state/userReducer';
-import { FaUser } from 'react-icons/fa'
 import { persistor } from '../../state/store';
-import { FaHome, FaUserFriends } from 'react-icons/fa'
+import { FaHome } from 'react-icons/fa'
 import { MdNotifications } from 'react-icons/md';
 import { SiGooglemessages } from 'react-icons/si';
 import { UserProfileLink } from '../UserProfileLink/UserProfileLink';
-import { IoSearch } from "react-icons/io5";
 
 const sideMenu = [
   {
