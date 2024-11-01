@@ -26,18 +26,16 @@ const Rightbar = () => {
   },[])
   return (
     <>
-      <div className='sticky shadow-md right-0 top-28 bottom-0 z-10 '>
-        <div className="p-2 bg-white rounded-lg">
-          <h1 className="text-md bg-[#02abc5] rounded-md p-2 text-white font-bold mb-4">People you may Know</h1>
+        <div className="p-2 rounded-lg">
+          <h1 className="text-md bg-white rounded-md p-2 font-bold mb-4">Suggested for you</h1>
           <ul className='overflow-y-scroll hide-scrollbar max-h-[25rem] '>
-            {users && users?.map((user)=>(
+            {users?.map((user)=>(
             <li className="py-2 px-1" key={user._id}>
               <FriendInfo name={user.name} key={user._id}  id={user._id} userName={user.userName} profilePic={user.profilePic} />
             </li>
             ))}
           </ul>
         </div>
-      </div>
     </>
 
   )

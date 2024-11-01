@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
-import { FaUser } from 'react-icons/fa'
+import { FaRegComment, FaUser } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { CommentIcon, HeartIcon, MenuIcon, WarningIcon, } from '../../icons/icons'
+import { imageUrl, WarningIcon, } from '../../icons/icons'
 import axios from '../../utils/axios'
 import { deletePost } from '../../utils/constants'
 import EditPost from './EditPost'
@@ -13,10 +13,14 @@ import ReportPost from './ReportPost'
 
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
+import { BsThreeDots } from 'react-icons/bs'
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { GrLike } from 'react-icons/gr'
+import { SinglePostModal } from '../SinglePost/SinglePost'
 TimeAgo.addDefaultLocale(en)
 
-const Post = (props) => {
-    const timeAgo = new TimeAgo('en-US')
+
+export default function Post(props) {
     const {
         postId,
         desc,
@@ -26,9 +30,11 @@ const Post = (props) => {
         comments,
         render,
         forceRender,
-        createdAt } = props;
+        createdAt
+    } = props;
 
-    const [showComment, setShowComment] = useState(false)
+    const timeAgo = new TimeAgo('en-US')
+    const [showSinglePost, setShowSinglePost] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const [editPostModal, setEditPostModal] = useState(false)
     const [reportPostModal, setReportPostModal] = useState(false)
@@ -39,11 +45,7 @@ const Post = (props) => {
     const likeCount = Object.keys(likes).length
     const PatchLike = () => {
         likePost(token, postId, dispatch)
-            forceRender(!render)
-    }
-
-    const HandleShowComment = () => {
-        setShowComment(!showComment)
+        forceRender(!render)
     }
 
     const handleDeletePost = async () => {
@@ -61,90 +63,104 @@ const Post = (props) => {
         }
     }
     return (
-        <div className='mt-6 shadow-md  '>
-            <div className='bg-white rounded-lg'>
-                <div className='p-2'>
-                    <div className='justify-between p-4 border-b-2 flex'>
-                        <div className=' flex '>
-                            {author?.profilePic ?
-                                <img className='w-10 rounded-full h-10' src={author?.profilePic} alt='' /> :
-                                <div className='border border-[#3d3f50] w-10 h-10 rounded-full'>
-                                    <FaUser className='w-full h-full rounded-full' />
+        <>
+            <div className={`my-4 bg-white rounded-xl max-h-[calc(100vh-100px)] ${SinglePostModal ? 'overflow-scroll' : "" } hide-scrollbar`} onClick={() => showMenu && setShowMenu(false)}>
+                <div className='flex px-1 justify-between items-center'>
+                    <div className='flex gap-3 items-center pl-1 py-2 rounded-md font-sans cursor-pointer'>
+                        {author?.profilePic ?
+                            <img className='rounded-full w-10 h-10' src={author?.profilePic} alt='' />
+                            :
+                            <img className='rounded-full w-10 h-10' src={imageUrl} />
+                        }
+                        <div>
+                            <p>{author.userName}</p>
+                            <p className='pl-2 text-sm text-slate-500'>{timeAgo.format(new Date(createdAt))}</p>
+                        </div>
+                    </div>
+
+                    {user?._id === author?._id ?
+                        <div className='relative'>
+                            <div onClick={() => setShowMenu(true)} className='w-8 h-8 flex justify-center items-center rounded-full hover:bg-[#e3e3e3] cursor-pointer mr-3'>
+                                <BsThreeDots className='w-6 h-6' />
+                            </div>
+                            {showMenu ?
+                                <div className="absolute border p-2  border-zinc-400 top-8  right-8 w-28 bg-white text-center cursor-pointer rounded-lg py-2">
+                                    <p onClick={() => handleDeletePost()} className='py-2 rounded hover:bg-[#e3e3e3]   transition duration-200'>Delete</p>
+                                    <p onClick={() => setEditPostModal(true)} className='py-2 rounded hover:bg-[#e3e3e3]  transition duration-200'>Edit</p>
                                 </div>
-                            }
-                            <div>
-                                <p className='pl-4 font-bold'>{author?.userName}</p>
-                                <p className='pl-2 text-sm'>{timeAgo.format(new Date(createdAt))}</p>
+                                : null}
+                        </div>
+                        : null}
+                    {editPostModal &&
+                        <EditPost desc={desc} setShowMenu={setShowMenu} postId={postId} editPostModal={editPostModal} setEditPostModal={setEditPostModal} />
+                    }
+
+                    {/* Report Post */}
+                    {user?._id !== author?._id &&
+                        <div className='relative'>
+                            <div className='block w-10 h-10 cursor-pointer ' onClick={() => setReportPostModal(true)}>
+                                <WarningIcon />
                             </div>
                         </div>
-                        {user?._id === author?._id &&
-                            <div className='relative'>
-                                <div className='block w-10 h-10 cursor-pointer ' onClick={() => setShowMenu(true)}>
-                                    <MenuIcon />
-                                </div>
-                                {showMenu &&
-                                    <div className="absolute border p-2  border-zinc-400 top-8  right-8 w-28 bg-white text-center rounded-lg py-2">
-                                        <p onClick={() => handleDeletePost()} className='py-2 rounded hover:text-white hover:bg-[#02abc5]  transition duration-200'>Delete</p>
-                                        <p onClick={() => setEditPostModal(true)} className='py-2 rounded hover:text-white hover:bg-[#02abc5]  transition duration-200'>Edit</p>
-                                    </div>
-                                }
-                            </div>
-                        }
-                        
-                        {editPostModal &&
-                            <div>
-                                <EditPost desc={desc} setShowMenu={setShowMenu} postId={postId} setEditPostModal={setEditPostModal} />
-                            </div>
-                        }
+                    }
 
-                        {/* Report Post */}
-                        {user?._id !== author?._id &&
-                            <div className='relative'>
-                                <div className='block w-10 h-10 cursor-pointer ' onClick={() => setReportPostModal(true)}>
-                                    <WarningIcon />
-                                </div>
-                            </div>
-                        }
+                    {/* reportmodal */}
+                    {reportPostModal &&
+                        <div>
+                            <ReportPost postId={postId} setReportPostModal={setReportPostModal} />
+                        </div>
+                    }
+                </div>
+                <p className='bg-white py-2 pl-3'>
+                    {desc}
+                </p>
 
-                        {/* reportmodal */} 
-                        {reportPostModal &&
-                            <div>
-                                <ReportPost postId={postId} setReportPostModal={setReportPostModal} />
-                            </div>
+                <div className='flex justify-center select-none' onClick={() => setShowMenu(false)}>
+                    <img className=' object-cover max-w-full'
+                        src={image}
+                    />
+                </div>
+                <div className='flex justify-between px-4 py-2'>
+                    <div className='inline-flex'><AiFillLike className='w-6 h-6' />
+                        <span className='pl-1'>{likeCount}</span></div>
+                    <div>{comments?.length} Comments</div>
+                </div>
+                <hr className='mx-2 my-1' />
+
+                <div className='flex hover:cursor-pointer'>
+                    <div onClick={PatchLike} className=" w-full gap-2 flex justify-center b items-center">
+
+                        {userLiked ?
+                            <AiFillLike className='w-6 h-6 ' />
+                            :
+                            <AiOutlineLike className='w-6 h-6 ' />
                         }
+                        <span> Like</span>
                     </div>
-                    <p className='bg-white p-5 '>
-                        {desc}
-                    </p>
-                    <div className='flex justify-center ' onClick={() => setShowMenu(false)}>
-                        <img className='rounded-md' src={image} alt='' />
+                    <div
+                        onClick={() => setShowSinglePost(true)}
+                        className='py-2 w-full gap-2 flex justify-center  items-center'
+                    >
+                        <FaRegComment className='w-4 h-4' />
+                        <span className='text-sm'> Comment</span>
                     </div>
                 </div>
 
-                <div className='flex'>
-                    <div className='flex'>
-                        {/* like section   */}
-                        <div className='flex p-4'>
-                            <div className='cursor-pointer' onClick={PatchLike}>
-                                <HeartIcon liked={userLiked} />
-                            </div>
-                            <p>{likeCount} likes</p>
-                        </div>
-                        <div className='flex p-4'>
-                            <div className='cursor-pointer' onClick={HandleShowComment}>
-                                <CommentIcon />
-                            </div>
-                            <p className='px-1 '>{comments?.length}</p>
-                        </div>
+                {showSinglePost && !props.singlePost ?
+                    <SinglePostModal
+                        setShowSinglePost={setShowSinglePost}
+                        {...props}
+
+                    />
+                    : null}
+
+                {props.singlePost ?
+                    <div>
+                        <Comments render={render} forceRender={forceRender} comments={comments} postId={postId} />
                     </div>
-                    {/* <div className='ml-auto mr-5 pt-4'>
-                        <ShareIcon />
-                    </div> */}
-                </div>
-                {showComment && <Comments render={render} forceRender={forceRender} comments={comments} postId={postId} />}
+                    : null
+                }
             </div>
-        </div>
+        </>
     )
 }
-
-export default Post

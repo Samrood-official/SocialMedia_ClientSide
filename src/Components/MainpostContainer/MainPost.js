@@ -6,10 +6,7 @@ import Rightbar from '../RightpostContainer/Rightbar'
 const MainPost = ({socket}) => {
   return (
     <>
-      <ContentPost />
-      <div className='md:hidden py-2 '>
-      <Rightbar/>
-      </div>
+      <ContentPost /> 
       <Feed socket={socket}/>
     </>
   )

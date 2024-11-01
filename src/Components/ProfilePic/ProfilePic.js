@@ -41,10 +41,10 @@ const ProfilePic = ({ profileId, profilePic }) => {
         <>
             <div className='flex flex-wrap'>
                 {userData._id == profileId ?
-                userData.profilePic ?
+                userData?.profilePic ?
                     <div className='-mt-24 flex justify-start pl-20'>
                         <div className='w-40 h-40 rounded-full shadow-md shadow-gray-600 overflow-hidden'>
-                            <img className='w-full h-full rounded-full' src={userData.profilePic} alt='profile' />
+                            <img className='w-full h-full rounded-full' src={userData?.profilePic} alt='profile' />
                         </div>
                     </div>
                     :

@@ -1,63 +1,63 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { SubmitIcon } from '../../icons/icons'
+import { imageUrl, SubmitIcon } from '../../icons/icons'
 import { setPost } from '../../state/userReducer'
 import axios from '../../utils/axios'
-const Comments = ({ postId ,comments, render, forceRender}) => {
-    const user = useSelector((state)=>state.user);
+const Comments = ({ postId, comments, render, forceRender }) => {
+    const commentsRef = useRef(null);
+    const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token)
     const [comment, setComment] = useState('')
+    const topRef = useRef(null);
 
     const dispatch = useDispatch()
-    const HandleComment = () => {
-        if(comment === '')return;
+    const handleComment = () => {
+        if (comment === '') return;
         axios.post(`/api/posts/${postId}/comment`, { comment }, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
-        }).then((response)=>{
-            dispatch(setPost({posts:response.data}))
+        }).then((response) => {
+            dispatch(setPost({ posts: response.data }))
             setComment('')
             forceRender(!render)
         })
     }
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        handleComment();
+        topRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
     return (
-        <>
-            <div>
-                <div className='flex m-2 p-5 justify-between border-2 border-zinc-400'>
-                    <div className='pl-4 flex'>
-                        {user?.profilePic ?
-                            <img className='w-10 rounded-full h-10' src={user.profilePic} alt='' /> :
-                            <div className='border border-[#3d3f50] w-10 h-10 rounded-full'>
-                                <FaUser className='w-full h-full rounded-full' />
-                            </div>
-                        }
-                        <div className='pl-4'>
-                            <input className='w-auto h-12 focus:outline-none' type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder='comment' />
-                        </div>
-                    </div>
-                    {/* comment sending icon */}
-                    <div className='p-2' onClick={HandleComment}>
-                        <SubmitIcon />
-                    </div> 
-                </div> 
+        <div className='relative'>
+            <div ref={topRef}/>
                 {comments && comments.map((item) => (
-                    <div className='flex p-2 gap-2 border-y border-zinc-100' key={item._id}>
-                        {item?.author?.profilePic ?
-                            <img className='w-10 rounded-full h-10' src={item?.author?.profilePic} alt='' /> :
-                            <div className='border border-[#3d3f50] w-10 h-10 rounded-full'>
-                                <FaUser className='w-full h-full rounded-full' />
+                    <div className='pl-2' key={item._id}>
+                        <div className='flex gap-3 items-start pl-1 py-2 rounded-md font-sans cursor-pointer'>
+
+                            {item?.author?.profilePic ?
+                                <img className='rounded-full w-10 h-10' src={item?.author?.profilePic} alt='' />
+                                :
+                                <img className='rounded-full w-10 h-10' src={imageUrl} />
+                            }
+                            <div className='bg-slate-100 w-fit rounded-l-2xl rounded-r-2xl mr-3 p-3'>
+                                <p className='text-sm text-slate-500'>{item?.author?.userName}</p>
+                                <p className=''>{item?.text}</p>
                             </div>
-                        }
-                        <div>
-                            <p className=''>{item?.author?.userName}</p>
-                            <p>{item?.text}</p>
                         </div>
                     </div>
                 ))}
-            </div>
-        </>
+            <form className='sticky bg-white bottom-0' onSubmit={handleCommentSubmit}>
+                <div className='flex p-2 gap-4'>
+                    <div className=' py-2 rounded-md'>
+                        <img className='rounded-full w-10 h-10' src={user.profilePic || imageUrl} />
+                    </div>
+                    <input type='text' value={comment} onChange={(e) => setComment(e.target.value)} placeholder='Add a comment...' className='w-full outline-none ' />
+                </div>
+            </form>
+        </div>
     )
 }
 

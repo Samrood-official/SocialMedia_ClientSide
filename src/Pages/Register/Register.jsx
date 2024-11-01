@@ -34,6 +34,7 @@ const Register = () => {
         }
     })
     let handleSignUp = (user) => {
+        console.log("🚀 ~ handleSignUp ~ user:", user)
         axios.post(signupPost, user).then((response) => {
             const savedUser = response.data
             if(savedUser?.status === 'pending'){

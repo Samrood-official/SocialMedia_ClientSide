@@ -3,19 +3,15 @@ import Navbar from '../../Components/Navbar/Navbar'
 import ProfileMainPost from '../../Components/ProfileMainpostContainer/ProfileMainPost'
 import Leftbar from '../../Components/LeftpostContainer/Leftbar'
 const Profile = () => {
-  // bg-rgb-235-238-246
   return (
-    <div className='max-h-screen'>
-      <Navbar />
-      <div className='bg-[#efefef] flex flex-wrap' >
-        <div className='hidden md:block md:w-1/4 pl-2 relative '>
-          <Leftbar />
-        </div>
-        <div className='w-full md:w-3/4 flex flex-wap px-4 '>
-          <ProfileMainPost />
-        </div>
+    <section className="grid grid-cols-1 md:grid-cols-4 gap-4 p-3 mx-auto h-[calc(100vh-64px)]">
+      <div className='hidden md:block col-span-1 overflow-scroll'>
+        <Leftbar />
       </div>
-    </div>
+      <div className='md:col-span-3 overflow-scroll'>
+        <ProfileMainPost />
+      </div>
+    </section>
   )
 }
 

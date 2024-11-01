@@ -60,7 +60,9 @@ const Navbar = () => {
                       <FaUser className='w-full h-full rounded-full' />
                     </div>
                   }
-                  <Link to={`/othersprofile/${user._id}`}>
+                  <Link to={`/othersprofile/${user._id}`}
+                  onClick={()=> setSearchItem("")}
+                  >
                     <div className='px-2'>
                       <p>{user.userName}</p>
                       <p className='-mt-1'>{user.name}</p>
@@ -91,12 +93,12 @@ const Navbar = () => {
           }
 
           <div className='relative'>
-            {userData.profilePic ?
+            {userData?.profilePic ?
               <button className='block w-12 h-12 md:hidden' onClick={toggleMenu}>
                 <img className='rounded-full h-full w-full' src={userData?.profilePic ? userData?.profilePic : ""} alt=''></img>
               </button> : <div onClick={toggleMenu} className='block md:hidden border bg-white w-10 h-10 rounded-full'>
                 <FaUser className='w-full h-full rounded-full' /> </div>}
-            {userData.profilePic ?
+            {userData?.profilePic ?
               <button onClick={() => navigate(`/profile/${userData._id}`)} className='hidden md:block w-12 h-12'>
                 <img className='rounded-full h-full w-full' src={userData?.profilePic ? userData?.profilePic : ""} alt=''></img>
               </button> : <div className='hidden md:block  border bg-white border-[#fffff] w-10 h-10 rounded-full'>
@@ -114,7 +116,8 @@ const Navbar = () => {
           {/* {userData && <p className='p-3 font-bold'>{userData.userName}</p>} */}
         </div>
       </nav>
-      {/* search bar for small scree  n */}
+
+      {/* search bar for small screen */}
       {window.location.pathname !== "/chat" &&
         <div className='relative sm:hidden flex w-full bg-[#efefef] p-2 item-center '>
           <input onChange={handleSearch} value={searchitem} className='w-full border border-black focus:outline-none py-2 px-5  text-gray rounded-l' type='text' placeholder='search....' />

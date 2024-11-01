@@ -62,10 +62,10 @@ const FriendInfo = ({ id, userName, profilePic, name }) => {
 
       <div className='pr-3 py-auto '>
         {!Following && user.followers.includes(id) &&
-          (<button className= 'rounded-md bg-[#02abc5] my-2 px-3 py-1 text-white' onClick={() => handleFollow(id)}>Follow back</button>)}
+          (<button className= 'rounded-md bg-slate-300 my-2 px-3 py-1' onClick={() => handleFollow(id)}>Follow back</button>)}
         {!Following && !user.followers.includes(id) &&
-          (<button className='rounded-md bg-[#02abc5] my-2 px-3 py-1 text-white' onClick={() => handleFollow(id)}>Follow</button>)}
-        {Following && (<button className='rounded-md bg-[#02abc5] my-2 px-3 py-1 text-white' onClick={() => handleUnFollow(id)}>Following</button>)}
+          (<button className='rounded-md bg-slate-300 my-2 px-3 py-1 ' onClick={() => handleFollow(id)}>Follow</button>)}
+        {Following && (<button className='rounded-md bg-slate-300 my-2 px-3 py-1 ' onClick={() => handleUnFollow(id)}>Following</button>)}
       
       </div>
     </div>

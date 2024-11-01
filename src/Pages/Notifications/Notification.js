@@ -15,35 +15,32 @@ const Notification = () => {
         }
 
         fetchNotification()
-    },[token])
-    const containerStyle = {
-        height: `calc(100vh - 200px)`,
-      };
+    }, [token])
+    
     return (
         <>
-            <Navbar />
-            <div className='bg-[#efefef] flex  pt-8 h-screen' >
-                <div className=' hidden md:block w-1/4 p-2 relative '>
+
+            <section className="grid grid-cols-1 md:grid-cols-4 gap-4 p-3 mx-auto h-[calc(100vh-64px)]">
+                <div className='hidden md:block col-span-1 overflow-scroll'>
                     <Leftbar />
                 </div>
-                <div className=' p-2 mt-2 w-full md:w-3/4 '>
+                <div className='md:col-span-3 overflow-scroll'>
                     <div className="bg-white rounded-md shadow-md  ">
                         <div className="pt-4 pl-4">
                             <p>Notifications</p>
                         </div>
-                        <div style={containerStyle} className='p-4 overflow-y-scroll overflow scrollbar-hide'> 
+                        <div className='p-4 overflow-y-scroll overflow scrollbar-hide'>
 
-                        {notification.length !== 0 ? notification.map(({type, user, friend, content, postId,createdAt},index)=>(
-                            <React.Fragment  key={index}>
-                        <Notificationlist type={type} createdAt={createdAt} user={user} friend={friend} content={content} post={postId}/>
-                        </React.Fragment>
-                        )):<div className='p-28 text-2xl font-semibold'>No Notifications</div>
-                        }
-                        </div>   
+                            {notification.length !== 0 ? notification.map(({ type, user, friend, content, postId, createdAt }, index) => (
+                                <React.Fragment key={index}>
+                                    <Notificationlist type={type} createdAt={createdAt} user={user} friend={friend} content={content} post={postId} />
+                                </React.Fragment>
+                            )) : <div className='p-28 text-2xl font-semibold'>No Notifications</div>
+                            }
+                        </div>
                     </div>
                 </div>
-
-            </div>
+            </section>
         </>
     )
 }

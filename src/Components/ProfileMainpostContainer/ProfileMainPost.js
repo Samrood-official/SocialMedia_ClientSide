@@ -49,12 +49,13 @@ const navigate = useNavigate()
     setProfileUser(profileUser)
   }
   useEffect(() => {
-    getFollowers()
+    getFollowers()    
     fetchImages()
     fetchProfileUser()
   }, [render])
 
   const fetchImages = async () => {
+    console.log("🚀 ~ fetchImages ~ fetchImages:")
     const response = await fetchMypost(token, profileId)
     setPosts(response)
   }
@@ -99,7 +100,7 @@ const navigate = useNavigate()
 
   return (
     <>
-      <div className='w-full mt-4'>
+      <div className='w-full mt-4 h-screen'>
         <Card noPadding={false} className="bg-white mb-5">
           <div>
             <div className='h-44 bg-[#02abc5] mx-1'>
@@ -107,21 +108,21 @@ const navigate = useNavigate()
             </div>
             <div className=' border-b-2 border-[#3d3f50]'>
               <>
-                <ProfilePic profilePic={profileUser.profilePic} profileId={profileId} />
+                <ProfilePic profilePic={profileUser?.profilePic} profileId={profileId} />
                 <div className='mx-24 flex flex-col' >
-                  <h1 className='text-2xl text-red-900 font-semibold px-2 '>
+                  <h1 className='text-2xl font-semibold px-2 '>
                     {profileUser?.userName}
                   </h1>
                   {userData._id !== profileId &&
                   <div className='flex'>
                     <div className='pr-3'>
                       {!Following && user.followers.includes(profileId) &&
-                        (<button className='rounded-md bg-[#02abc5] my-2 px-3 py-1 text-white' onClick={() => handleFollow(profileId)}>Follow back</button>)}
+                        (<button className='rounded-md bg-slate-300 my-2 px-3 py-1' onClick={() => handleFollow(profileId)}>Follow back</button>)}
                       {!Following && !user.followers.includes(profileId) &&
-                        (<button className='rounded-md bg-[#02abc5] my-2 px-3 py-1 text-white' onClick={() => handleFollow(profileId)}>Follow</button>)}
-                      {Following && (<button className='rounded-md bg-[#02abc5] my-2 px-3 py-1 text-white' onClick={() => handleUnFollow(profileId)}>Following</button>)}
+                        (<button className='rounded-md bg-slate-300 my-2 px-3 py-1' onClick={() => handleFollow(profileId)}>Follow</button>)}
+                      {Following && (<button className='rounded-md bg-slate-300 my-2 px-3 py-1' onClick={() => handleUnFollow(profileId)}>Following</button>)}
                     </div>
-                    <button className='rounded-md bg-[#02abc5] my-2 px-3 py-1 text-white' onClick={()=>{handleChat(token,userData._id,profileId,conversation,chat,dispatch).then(()=>navigate('/chat'))}}>message</button>
+                    <button className='rounded-md bg-slate-300 my-2 px-3 py-1' onClick={()=>{handleChat(token,userData._id,profileId,conversation,chat,dispatch).then(()=>navigate('/chat'))}}>message</button>
                     </div>
                   }
                 </div>
@@ -141,8 +142,7 @@ const navigate = useNavigate()
                 {isModal && <div className=' w-full'><EditProfile setIsModal={setIsModal} /></div>}
               </>
             </div>
-            <div>
-
+            <div className='min-h-[300px]'>
               <div className=' flex'>
                 <div onClick={() => setTab('posts')} className={tab === "posts" ? active : nonActive}>
                   <PostIcon />
@@ -162,10 +162,10 @@ const navigate = useNavigate()
                 </div>
               </div>
 
-              {tab === "followings" && <Friends data={followings} type={"followings"} />}
+              {tab === "followings" ? <Friends data={followings} type={"followings"} /> : null}
               {tab === "posts" && <Feed Profileposts={posts} profileId={profileId} render={render} forceRender={forceRender} isMypost={true} />}
               {tab === "followers" && <Friends forceRender={forceRender} render={render} data={followers} type={"followers"} />}
-              {tab === "images" && <Images post={posts} />}
+              {tab === "images" && <Images images={posts.filter(post => post.image).map(post => post.image)} />}
             </div>
           </div>
         </Card>

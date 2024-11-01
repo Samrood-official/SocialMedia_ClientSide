@@ -8,8 +8,10 @@ import { getUser } from '../../state/apiCalls';
 import { SubmitIcon } from '../../icons/icons';
 import { BiArrowBack } from 'react-icons/bi';
 import { setChat } from '../../state/userReducer';
+import { getBaseUrl } from '../../utils/constants';
 
-const socket = io.connect("wss://zwatch.tk")
+const url = getBaseUrl(true)
+const socket = io.connect(url)
 const ChatContainer = ({ messages, currentChat, setMessages }) => {
   const user = useSelector((state) => state.user)
   const token = useSelector((state) => state.token)
@@ -72,10 +74,10 @@ const ChatContainer = ({ messages, currentChat, setMessages }) => {
     }
   }
   return (
-    <div className=' flex flex-col justify-between' >
+    <div className='bg-white flex flex-col justify-between' >
       {/* Chat header */}
         <div className='flex h-[55px] mx-1 bg-[#02abc5] rounded-md items-center'>
-        <button className='md:hidden mr-1 text-white  text-2xl' onClick={()=>{dispatch(setChat({showMessage:"hidden",showContact:"block"}))}} ><BiArrowBack/></button>
+        <button className='md:hidden mr-1 text-white  text-2xl' onClick={()=>{dispatch(setChat({showMessage:"hidden", showContact:"block"}))}} ><BiArrowBack/></button>
           {friend?.profilePic ?
             <img className='md:mx-1 w-10 h-10 rounded-full' src={friend?.profilePic} alt='profilepic' /> :
             <div className='border md:mx-2  border-[#3d3f50] w-10 h-10 rounded-full'>
@@ -96,11 +98,8 @@ const ChatContainer = ({ messages, currentChat, setMessages }) => {
         ))}
       </div>
       {/* Chat input */}
-      <div className='md:rounded-md h-[55px] w-full flex items-center  md:static fixed bottom-0 bg-[#02abc5]'>
+      <div className='md:rounded-md h-[55px] w-full flex items-center md:static fixed bottom-0 bg-[#02abc5]'>
           <div className='flex items-center box-border w-full '>
-            {/* <div className='border bg-white w-10 h-10 rounded-full'>
-              <FaUser className='w-full h-full rounded-full' />
-            </div> */}
             <input onChange={(e) => setNewMessage(e.target.value)} value={newMessage} className='flex-1 ml-2  w-full h-10 rounded-2xl px-4 focus:outline-none ' type="text" placeholder='Send a message........' />
             <div className='mx-2'>
               <button onClick={handleSubmit} className='bg-white rounded-full px-3 py-2 focus:outline-none'>

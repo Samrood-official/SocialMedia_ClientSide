@@ -12,9 +12,7 @@ const Chat = () => {
     let currentChat = useSelector((state) => state.currentChat)
     const user = useSelector((state) => state.user)
     const token = useSelector((state) => state.token)
-    const chat = useSelector((state)=>state.chat)
-    console.log("chat");
-    console.log(chat);
+    const chat = useSelector((state) => state.chat)
     const dispatch = useDispatch()
     const [messages, setMessages] = useState([])
     useEffect(() => {
@@ -29,7 +27,7 @@ const Chat = () => {
             }
         }
         getConversations();
-    }, [user,token])
+    }, [user, token])
 
     useEffect(() => {
         const getMessages = async () => {
@@ -39,24 +37,24 @@ const Chat = () => {
         currentChat && getMessages();
     }, [currentChat])
     return (
-        <div className='h-screen bg-[#efefef]'>
-            <Navbar />
-            <div className=' flex  mr-2'>
-                <div className=' hidden md:block w-1/4 p-2 relative '>
+        <>
+            <section className="grid grid-cols-1 md:grid-cols-4 gap-4 p-3 mx-auto h-[calc(100vh-64px)]">
+                <div className='hidden md:block col-span-1 overflow-scroll'>
                     <Leftbar />
                 </div>
-                
-                <div className={`h-full w-full md:w-1/4 p-4 ${chat.showContact} md:block`}>
-                    <Contact  currentUser={user}  />
+                <div className={`md:col-span-1 md:block ${chat.showContact} overflow-scroll`}>
+                    <div className={`h-full w-full p-4 md:block`}>
+                        <Contact currentUser={user} />
+                    </div>
                 </div>
-                <div className={`rounded-md ${chat.showMessage}  md:block w-full md:w-2/4 md:bg-white mt-[16px]`}>
+                <div className={`md:col-span-2 overflow-scroll h-full ${chat.showMessage} md:block`}>
                     {currentChat ?
                         <ChatContainer messages={messages} setMessages={setMessages} currentChat={currentChat} /> :
                         <div className='bg-white m-5'><div className=' p-24 text-2xl italic'>open a chat to start a conversation</div></div>
                     }
                 </div>
-            </div>
-        </div>
+            </section>
+        </>
     )
 }
 
