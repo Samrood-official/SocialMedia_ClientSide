@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../Components/Navbar/Navbar'
 import Contact from '../../Components/Contact/Contact'
 import ChatContainer from '../../Components/ChatContainer/ChatContainer'
 import Leftbar from '../../Components/LeftpostContainer/Leftbar'

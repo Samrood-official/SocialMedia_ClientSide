@@ -1,5 +1,4 @@
 import React from 'react'
-import Navbar from '../../Components/Navbar/Navbar'
 import ProfileMainPost from '../../Components/ProfileMainpostContainer/ProfileMainPost'
 import Leftbar from '../../Components/LeftpostContainer/Leftbar'
 const Profile = () => {

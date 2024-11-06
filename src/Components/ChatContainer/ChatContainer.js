@@ -75,7 +75,7 @@ const ChatContainer = ({ messages, currentChat, setMessages }) => {
   return (
     <div className='bg-white flex flex-col justify-between' >
       {/* Chat header */}
-        <div className='flex h-[55px] mx-1 bg-[#02abc5] rounded-md items-center'>
+        <div className='flex h-[55px] bg-[#02abc5] rounded-md items-center'>
         <button className='md:hidden mr-1 text-white  text-2xl' onClick={()=>{dispatch(setChat({showMessage:"hidden", showContact:"block"}))}} ><BiArrowBack/></button>
           {friend?.profilePic ?
             <img className='md:mx-1 w-10 h-10 rounded-full' src={friend?.profilePic} alt='profilepic' /> :
@@ -97,7 +97,7 @@ const ChatContainer = ({ messages, currentChat, setMessages }) => {
         ))}
       </div>
       {/* Chat input */}
-      <div className='md:rounded-md h-[55px] w-full flex items-center md:static fixed bottom-0 bg-[#02abc5]'>
+      <div className='md:rounded-md h-[55px] w-full flex items-center md:static fixed bottom-0 right-0 bg-[#02abc5]'>
           <div className='flex items-center box-border w-full '>
             <input onChange={(e) => setNewMessage(e.target.value)} value={newMessage} className='flex-1 ml-2  w-full h-10 rounded-2xl px-4 focus:outline-none ' type="text" placeholder='Send a message........' />
             <div className='mx-2'>

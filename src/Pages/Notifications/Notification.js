@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../Components/Navbar/Navbar'
 import Leftbar from '../../Components/LeftpostContainer/Leftbar'
 import { getNotifications } from '../../state/apiCalls'
 import Notificationlist from './Notificationlist'
