@@ -2,9 +2,9 @@ export const getBaseUrl = (isSocket) => {
     if (location.hostname === 'localhost') {
         return 'http://localhost:3001'
     } else if (isSocket) {
-        return 'wss://zwatch.tk'
+        return 'wss://social-media-server-side-one.vercel.app/'
     } else {
-        return 'https://zwatch.tk'
+        return 'https://social-media-server-side-one.vercel.app/'
     }
 }
 
