@@ -18,7 +18,6 @@ const ContentPost = () => {
   const [file, setFile] = useState()
   const [loaded, setLoaded] = useState(true)
   const [preview, setPreview] = useState(null);
-  console.log("🚀 ~ InputModal ~ file:", file)
   const [isOpen, setIsOpen] = useState(false)
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -30,7 +29,6 @@ const ContentPost = () => {
   }
   const handlePost = async (e) => {
     e.preventDefault()
-    setLoaded(false)
     var formData = new FormData()
     formData.append("file", file)
     formData.append("userId", userData._id)
@@ -40,8 +38,10 @@ const ContentPost = () => {
         toast.error("please write something in the post", {
           position: 'top-center'
         })
+        return;
       }
 
+      setLoaded(false)
       const response = await axios.post(addPost, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -53,6 +53,7 @@ const ContentPost = () => {
       setFile(null)
       setLoaded(true)
       setIsOpen(false)
+      setPreview(null)
       dispatch(setPosts({ posts: [post, ...posts] }))
 
       toast.success('Post created successfully', {
@@ -84,13 +85,10 @@ const ContentPost = () => {
         </div>
       </div>
 
-      {/* Main modal */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black bg-opacity-50 overflow-scroll">
           <div className="relative p-4 w-full max-w-md max-h-full">
-            {/* Modal content */}
             <div className="relative bg-white rounded-lg shadow">
-              {/* Modal header */}
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 className="text-xl font-semibold">
                   Create Post
@@ -99,8 +97,6 @@ const ContentPost = () => {
                   <IoMdClose className='w-full h-full' />
                 </p>
               </div>
-              {/* Modal body */}
-              {/* {!loaded && <Loader/> } */}
               <div className="p-4 md:p-5">
                 <UserProfileLink />
                 <div className="space-y-3">

@@ -15,7 +15,8 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 const persistConfig = {
   key: 'root',
   storage,
-  version: 1
+  version: 1,
+  whitelist: ['user', 'token']
 }
 
 const persistedReducer = persistReducer(persistConfig, userSlice.reducer)

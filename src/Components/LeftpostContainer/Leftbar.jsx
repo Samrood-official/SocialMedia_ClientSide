@@ -7,12 +7,17 @@ import { FaHome } from 'react-icons/fa'
 import { MdNotifications } from 'react-icons/md';
 import { SiGooglemessages } from 'react-icons/si';
 import { UserProfileLink } from '../UserProfileLink/UserProfileLink';
+import { ImProfile } from "react-icons/im";
 
 const sideMenu = [
   {
     name: 'Home',
     icon: <FaHome className='w-full h-full rounded-full' />,
     path:'/',
+  },
+  {
+    name: 'Profile',
+    icon: <ImProfile className='w-full h-full '/>,
   },
   {
     name: 'Messages',
@@ -42,7 +47,7 @@ const Leftbar = () => {
           key={index} 
           className={`flex gap-3 items-center m-2 p-2 rounded-md cursor-pointer ${location.pathname === menu.path && 'bg-[#e3e3e3]'}  hover:bg-[#e3e3e3] font-sans`}
 
-          to={menu.path}
+          to={menu.name === 'Profile' ? `/profile/${userData?._id}` : menu.path}
                 >
             <div className=' w-6 h-6'>
               {menu.icon}

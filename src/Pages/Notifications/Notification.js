@@ -25,9 +25,6 @@ const Notification = () => {
                 </div>
                 <div className='md:col-span-3 overflow-scroll'>
                     <div className="bg-white rounded-md shadow-md  ">
-                        <div className="pt-4 pl-4">
-                            <p>Notifications</p>
-                        </div>
                         <div className='p-4 overflow-y-scroll overflow scrollbar-hide'>
 
                             {notification.length !== 0 ? notification.map(({ type, user, friend, content, postId, createdAt }, index) => (
