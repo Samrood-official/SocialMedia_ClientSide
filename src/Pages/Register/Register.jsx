@@ -8,7 +8,6 @@ import { signupPost } from "../../utils/constants";
 
 const initialValues = {
     email: '',
-    userName: '',
     phoneNumber: '',
     password: '',
     confirm_password: ''
@@ -18,7 +17,6 @@ const Register = () => {
     const SignUpSchema = yup.object({
         email: yup.string().email().required("Email Required"),
         name: yup.string().min(2).max(20).required('please enter your Actual Name '),
-        userName: yup.string().min(4).max(20).required('please enter your username '),
         phoneNumber: yup.string().matches(/^\d{10}$/, 'Invalid phone number').required('Phone is required'),
         password: yup.string().min(4).required('please Enter password'),
         confirm_password: yup.string().required().oneOf([yup.ref("password"), null], 'password must match')
@@ -28,29 +26,22 @@ const Register = () => {
         initialValues: initialValues,
         validationSchema: SignUpSchema,
         onSubmit: (values, action) => {
-           
+
             handleSignUp(values)
             action.resetForm()
         }
     })
     let handleSignUp = (user) => {
-        console.log("🚀 ~ handleSignUp ~ user:", user)
         axios.post(signupPost, user).then((response) => {
             const savedUser = response.data
-            if(savedUser?.status === 'pending'){
+
+            if (savedUser?.status === 'pending') {
                 navigate(`/verifyEmail/${savedUser.user}`)
             }
-            // else{
-            //     navigate('/')
-            // }
-            // dispatch(setLogin(response.data))
-            // navigate('/login')
         }).catch((err) => {
-            ((error) => {
-                toast.error(error.response.data.msg, {
-                    position: "top-center",
-                });
-            })(err);
+            toast.error(err.response.data.msg, {
+                position: "top-center",
+            });
         })
     }
     return (
@@ -63,7 +54,6 @@ const Register = () => {
 
                 </div>
                 <form className="mt-8 space-y-2" onSubmit={handleSubmit}>
-                    {/* <input type="hidden" name="remember" value="true"/> */}
                     <div className="-space-y-px rounded-md shadow-sm">
                         <div>
                             <label htmlFor="Name" className="sr-only">Name</label>
@@ -71,14 +61,6 @@ const Register = () => {
                             <input onChange={handleChange} onClick={handleBlur} value={values.name} id="name" name="name" type="text" autoComplete="off" className=" pl-3 relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 sm:text-sm " placeholder="Name" />
                             {errors.name && touched.name ?
                                 <p className="text-red-600">{errors.name}</p> : null
-                            }
-                        </div>
-                        <div className='pt-2'>
-                            <label htmlFor="userName" className="sr-only">User Name</label>
-
-                            <input onChange={handleChange} onClick={handleBlur} value={values.userName} id="userName" name="userName" type="text" autoComplete="off" className=" pl-3 relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 sm:text-sm " placeholder="user Name" />
-                            {errors.userName && touched.userName ?
-                                <p className="text-red-600">{errors.userName}</p> : null
                             }
                         </div>
                         <div className='pt-2'>
